@@ -1,11 +1,17 @@
 # Android ExoPlayer2 Shoutcast Metadata Protocol (ICY) extension
 [![Download](https://api.bintray.com/packages/saschpe/maven/android-android-exoplayer2-ext-icy/images/download.svg)](https://bintray.com/saschpe/maven/android-android-exoplayer2-ext-icy/_latestVersion)
-[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Android%20CustomTabs-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/5872)
 [![License](http://img.shields.io/:license-apache-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 [![Build Status](https://travis-ci.org/saschpe/android-android-exoplayer2-ext-icy.svg?branch=master)](https://travis-ci.org/saschpe/android-android-exoplayer2-ext-icy)
 <a href="http://www.methodscount.com/?lib=saschpe.android%3Aandroid-exoplayer2-ext-icy%3A1.1.1"><img src="https://img.shields.io/badge/Methods and size-core: 100 | deps: 19640 | 25 KB-e91e63.svg"/></a>
 
-The Shoutcast Metadata Protocol extension provides **IcyHttpDataSource** and **IcyHttpDataSourceFactory** which can parse ICY metadata information such as stream name and genre as well as current song information from a music stream.
+The Shoutcast Metadata Protocol extension provides **IcyHttpDataSource** and 
+**IcyHttpDataSourceFactory** which can parse ICY metadata information such as stream name and
+genre as well as current song information from a music stream.
+
+You can find the protocol description here:
+
+- https://cast.readme.io/v1.0/docs/icy
+- http://www.smackfu.com/stuff/programming/shoutcast.html
 
 
 # Usage
