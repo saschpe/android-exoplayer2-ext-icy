@@ -1,22 +1,46 @@
-# Android ExoPlayer2 Icy Extension
+# Android ExoPlayer2 Shoutcast Metadata Protocol (ICY) extension
 [![Download](https://api.bintray.com/packages/saschpe/maven/android-android-exoplayer2-ext-icy/images/download.svg)](https://bintray.com/saschpe/maven/android-android-exoplayer2-ext-icy/_latestVersion)
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Android%20CustomTabs-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/5872)
 [![License](http://img.shields.io/:license-apache-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 [![Build Status](https://travis-ci.org/saschpe/android-android-exoplayer2-ext-icy.svg?branch=master)](https://travis-ci.org/saschpe/android-android-exoplayer2-ext-icy)
 <a href="http://www.methodscount.com/?lib=saschpe.android%3Aandroid-exoplayer2-ext-icy%3A1.1.1"><img src="https://img.shields.io/badge/Methods and size-core: 100 | deps: 19640 | 25 KB-e91e63.svg"/></a>
 
-
+The Shoutcast Metadata Protocol extension provides **IcyHttpDataSource** and **IcyHttpDataSourceFactory** which can parse ICY metadata information such as stream name and genre as well as current song information from a music stream.
 
 
 # Usage
-TODO
+To receive information about the current music stream (such as name and genre, see **IcyHeaders**
+ class) as well as current song information (see **IcyMetadata** class), pass an instance of
+ **IcyHttpDataSourceFactory** instead of an **DefaultHttpDataSourceFactory** like this (in Kotlin):
 
-```java
-TODO
+```kotlin
+// ... exoPlayer instance already created ...
+
+// Custom HTTP data source factory which requests Icy metadata and parses it if
+// the stream server supports it
+val icyHttpDataSourceFactory = IcyHttpDataSourceFactory.Builder(userAgent)
+    .setIcyHeadersListener { icyHeaders ->
+        Log.d("XXX", "onIcyHeaders: %s".format(icyHeaders.toString()))
+    }
+    .setIcyMetadataChangeListener { icyMetadata ->
+        Log.d("XXX", "onIcyMetaData: %s".format(icyMetadata.toString()))
+    }
+    .build()
+
+// Produces DataSource instances through which media data is loaded
+val dataSourceFactory = DefaultDataSourceFactory(applicationContext, null, icyHttpDataSourceFactory)
+// Produces Extractor instances for parsing the media data
+val extractorsFactory = DefaultExtractorsFactory()
+
+// The MediaSource represents the media to be played
+val mediaSource = ExtractorMediaSource.Factory(dataSourceFactory)
+    .setExtractorsFactory(extractorsFactory)
+    .createMediaSource(sourceUri)
+
+// Prepares media to play (happens on background thread) and triggers
+// {@code onPlayerStateChanged} callback when the stream is ready to play
+exoPlayer?.prepare(mediaSource)
 ```
-
-
-## Screenshots
 
 # Download
 ```groovy
