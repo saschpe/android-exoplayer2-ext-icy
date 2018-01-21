@@ -20,7 +20,7 @@ To receive information about the current music stream (such as name and genre, s
  **IcyHttpDataSourceFactory** instead of an **DefaultHttpDataSourceFactory** like this (in Kotlin):
 
 ```kotlin
-// ... exoPlayer instance already created ...
+// ... exoPlayer instance already created
 
 // Custom HTTP data source factory which requests Icy metadata and parses it if
 // the stream server supports it
@@ -35,16 +35,13 @@ val icyHttpDataSourceFactory = IcyHttpDataSourceFactory.Builder(userAgent)
 
 // Produces DataSource instances through which media data is loaded
 val dataSourceFactory = DefaultDataSourceFactory(applicationContext, null, icyHttpDataSourceFactory)
-// Produces Extractor instances for parsing the media data
-val extractorsFactory = DefaultExtractorsFactory()
 
 // The MediaSource represents the media to be played
 val mediaSource = ExtractorMediaSource.Factory(dataSourceFactory)
-    .setExtractorsFactory(extractorsFactory)
+    .setExtractorsFactory(DefaultExtractorsFactory())
     .createMediaSource(sourceUri)
 
-// Prepares media to play and triggers onPlayerStateChanged callback
-exoPlayer?.prepare(mediaSource)
+// exoPlayer?.prepare(mediaSource) ...
 ```
 
 # Download
