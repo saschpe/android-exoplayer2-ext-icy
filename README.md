@@ -43,8 +43,7 @@ val mediaSource = ExtractorMediaSource.Factory(dataSourceFactory)
     .setExtractorsFactory(extractorsFactory)
     .createMediaSource(sourceUri)
 
-// Prepares media to play (happens on background thread) and triggers
-// {@code onPlayerStateChanged} callback when the stream is ready to play
+// Prepares media to play and triggers onPlayerStateChanged callback
 exoPlayer?.prepare(mediaSource)
 ```
 
