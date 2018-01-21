@@ -1,7 +1,7 @@
 # ExoPlayer2 Shoutcast Metadata Protocol (ICY) extension
-[![Download](https://api.bintray.com/packages/saschpe/maven/android-android-exoplayer2-ext-icy/images/download.svg)](https://bintray.com/saschpe/maven/android-android-exoplayer2-ext-icy/_latestVersion)
+[![Download](https://api.bintray.com/packages/saschpe/maven/android-exoplayer2-ext-icy/images/download.svg)](https://bintray.com/saschpe/maven/android-exoplayer2-ext-icy/_latestVersion)
 [![License](http://img.shields.io/:license-apache-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
-[![Build Status](https://travis-ci.org/saschpe/android-android-exoplayer2-ext-icy.svg?branch=master)](https://travis-ci.org/saschpe/android-android-exoplayer2-ext-icy)
+[![Build Status](https://travis-ci.org/saschpe/android-exoplayer2-ext-icy.svg?branch=master)](https://travis-ci.org/saschpe/android-exoplayer2-ext-icy)
 <a href="http://www.methodscount.com/?lib=saschpe.android%3Aandroid-exoplayer2-ext-icy%3A1.0.0"><img src="https://img.shields.io/badge/Methods and size-core: 100 | deps: 19640 | 25 KB-e91e63.svg"/></a>
 
 The Shoutcast Metadata Protocol extension provides **IcyHttpDataSource** and 
