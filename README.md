@@ -1,4 +1,4 @@
-# Android ExoPlayer2 Shoutcast Metadata Protocol (ICY) extension
+# ExoPlayer2 Shoutcast Metadata Protocol (ICY) extension
 [![Download](https://api.bintray.com/packages/saschpe/maven/android-android-exoplayer2-ext-icy/images/download.svg)](https://bintray.com/saschpe/maven/android-android-exoplayer2-ext-icy/_latestVersion)
 [![License](http://img.shields.io/:license-apache-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 [![Build Status](https://travis-ci.org/saschpe/android-android-exoplayer2-ext-icy.svg?branch=master)](https://travis-ci.org/saschpe/android-android-exoplayer2-ext-icy)
