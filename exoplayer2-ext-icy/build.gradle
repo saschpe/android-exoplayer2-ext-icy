@@ -54,6 +54,7 @@ android {
 
 dependencies {
     // Runtime dependencies
+    implementation 'com.google.android.exoplayer:exoplayer-core:2.6.1'
 
     // Test dependencies
     testImplementation 'junit:junit:4.12'
@@ -61,13 +62,13 @@ dependencies {
     testImplementation 'org.mockito:mockito-core:2.13.0'
 }
 
-group = 'saschpe.android.exoplayer2'
+group = 'saschpe.android'
 version = android.defaultConfig.versionName
 
 ext {
     siteUrl = 'https://github.com/saschpe/android-exoplayer2-ext-icy'
     gitUrl = 'https://github.com/saschpe/android-exoplayer2-ext-icy.git'
-    descr = 'TODO.'
+    descr = 'ExoPlayer2 Shoutcast Metadata Protocol (ICY) extension.'
 }
 
 bintray {
