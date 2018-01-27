@@ -46,7 +46,7 @@ val mediaSource = ExtractorMediaSource.Factory(dataSourceFactory)
 
 # Download
 ```groovy
-compile 'saschpe.android.exoplayer2:ext-icy:1.0.0'
+implementation 'saschpe.android:exoplayer2-ext-icy:1.0.0'
 ```
 
 Snapshots of the development version are available in [Sonatype's `snapshots` repository][snap].
