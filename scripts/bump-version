@@ -11,7 +11,7 @@ if [ $# -ne 1 ] ; then
 fi
 
 #APP_GRADLE="app/build.gradle"
-LIB_GRADLE="customtabs/build.gradle"
+LIB_GRADLE="exoplayer2-ext-icy/build.gradle"
 README="README.md"
 
 # Increase SDK version (used as versionName in most modules)
@@ -26,7 +26,7 @@ fi
 sed -i -e "s|versionName '$OLD_VERSION|versionName '$NEW_VERSION|" $LIB_GRADLE
 # Replace in README.md
 sed -i \
-    -e "s|saschpe.android:customtabs:$OLD_VERSION|saschpe.android:customtabs:$NEW_VERSION|" \
+    -e "s|saschpe.android:exoplayer2-ext-icy:$OLD_VERSION|saschpe.android:exoplayer2-ext-icy:$NEW_VERSION|" \
     -e "s|%3A${OLD_VERSION}|%3A${NEW_VERSION}|" \
     $README
 
