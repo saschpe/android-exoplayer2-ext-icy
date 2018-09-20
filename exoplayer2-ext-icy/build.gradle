@@ -54,7 +54,7 @@ android {
 
 dependencies {
     // Runtime dependencies
-    implementation 'com.google.android.exoplayer:exoplayer-core:2.6.1'
+    implementation 'com.google.android.exoplayer:exoplayer-core:2.8.4'
 
     // Test dependencies
     testImplementation 'junit:junit:4.12'
