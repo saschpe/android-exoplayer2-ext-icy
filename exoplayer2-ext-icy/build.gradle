@@ -58,8 +58,8 @@ dependencies {
 
     // Test dependencies
     testImplementation 'junit:junit:4.12'
-    testImplementation 'org.robolectric:robolectric:3.6.1'
-    testImplementation 'org.mockito:mockito-core:2.13.0'
+    testImplementation 'org.robolectric:robolectric:3.8'
+    testImplementation 'org.mockito:mockito-core:2.19.0'
 }
 
 group = 'saschpe.android'

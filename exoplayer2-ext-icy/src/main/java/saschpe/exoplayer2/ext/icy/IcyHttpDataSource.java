@@ -203,7 +203,7 @@ public final class IcyHttpDataSource extends DefaultHttpDataSource {
         private int connectTimeoutMillis;
         private int readTimeoutMillis;
         private boolean allowCrossProtocolRedirects;
-        private RequestProperties defaultRequestProperties;
+        private RequestProperties defaultRequestProperties = new RequestProperties();
         private IcyHeadersListener icyHeadersListener;
         private IcyMetadataListener icyMetadataListener;
 
