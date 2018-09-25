@@ -5,6 +5,7 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
+import okhttp3.OkHttpClient;
 import saschpe.exoplayer2.ext.icy.test.Constants;
 
 import static org.junit.Assert.assertNotNull;
@@ -15,10 +16,9 @@ public final class IcyHttpDataSourceTest {
     @Test
     public void createDataSourceFromBuilder() {
         // Arrange, act
-        IcyHttpDataSource source = new IcyHttpDataSource.Builder(Constants.TEST_USER_AGENT)
-                .setConnectTimeoutMillis(Constants.TEST_CONNECT_TIMEOUT_MS)
-                .setReadTimeoutMillis(Constants.TEST_READ_TIMEOUT_MS)
-                .setAllowCrossProtocolRedirects(Constants.TEST_ALLOW_CROSS_PROTOCOL_REDIRECTS)
+        OkHttpClient client = new OkHttpClient.Builder().build();
+        IcyHttpDataSource source = new IcyHttpDataSource.Builder(client)
+                .setUserAgent(Constants.TEST_USER_AGENT)
                 .build();
 
         // Assert

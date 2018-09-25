@@ -4,9 +4,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.google.android.exoplayer2.ext.okhttp.OkHttpDataSource;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DataSpec;
-import com.google.android.exoplayer2.upstream.DefaultHttpDataSource;
 import com.google.android.exoplayer2.upstream.TransferListener;
 import com.google.android.exoplayer2.util.Predicate;
 
@@ -14,11 +14,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.CacheControl;
+import okhttp3.Call;
+
 /**
  * https://cast.readme.io/v1.0/docs/icy
  * http://www.smackfu.com/stuff/programming/shoutcast.html
  */
-public final class IcyHttpDataSource extends DefaultHttpDataSource {
+public final class IcyHttpDataSource extends OkHttpDataSource {
     private static final String TAG = IcyHttpDataSource.class.getSimpleName();
 
     private static final String REQUEST_HEADER_ICY_METAINT_KEY = "Icy-MetaData";
@@ -49,14 +52,13 @@ public final class IcyHttpDataSource extends DefaultHttpDataSource {
     }
 
     private IcyHttpDataSource(
-            @NonNull final String userAgent,
+            @NonNull Call.Factory callFactory,
+            @Nullable final String userAgent,
             @Nullable final Predicate<String> contentTypePredicate,
-            @Nullable final TransferListener<? super DefaultHttpDataSource> listener,
-            final int connectTimeoutMillis,
-            final int readTimeoutMillis,
-            final boolean allowCrossProtocolRedirects,
-            @Nullable final RequestProperties defaultRequestProperties) {
-        super(userAgent, contentTypePredicate, listener, connectTimeoutMillis, readTimeoutMillis, allowCrossProtocolRedirects, defaultRequestProperties);
+            @Nullable final TransferListener<? super OkHttpDataSource> listener,
+            @Nullable CacheControl cacheControl,
+            @NonNull RequestProperties defaultRequestProperties) {
+        super(callFactory, userAgent, contentTypePredicate, listener, cacheControl, defaultRequestProperties);
         defaultRequestProperties.set(REQUEST_HEADER_ICY_METAINT_KEY, REQUEST_HEADER_ICY_METAINT_VALUE);
         // See class Builder
     }
@@ -202,18 +204,22 @@ public final class IcyHttpDataSource extends DefaultHttpDataSource {
     }
 
     public final static class Builder {
+        private Call.Factory callFactory;
         private String userAgent;
         private Predicate<String> contentTypePredicate;
-        private TransferListener<? super DefaultHttpDataSource> listener;
-        private int connectTimeoutMillis;
-        private int readTimeoutMillis;
-        private boolean allowCrossProtocolRedirects;
+        private TransferListener<? super OkHttpDataSource> listener;
+        private CacheControl cacheControl;
         private RequestProperties defaultRequestProperties = new RequestProperties();
         private IcyHeadersListener icyHeadersListener;
         private IcyMetadataListener icyMetadataListener;
 
-        public Builder(@NonNull final String userAgent) {
+        public Builder(@NonNull Call.Factory callFactory) {
+            this.callFactory = callFactory;
+        }
+
+        public Builder setUserAgent(@NonNull final String userAgent) {
             this.userAgent = userAgent;
+            return this;
         }
 
         public Builder setContentTypePredicate(@NonNull final Predicate<String> contentTypePredicate) {
@@ -226,18 +232,8 @@ public final class IcyHttpDataSource extends DefaultHttpDataSource {
             return this;
         }
 
-        public Builder setConnectTimeoutMillis(final int connectTimeoutMillis) {
-            this.connectTimeoutMillis = connectTimeoutMillis;
-            return this;
-        }
-
-        public Builder setReadTimeoutMillis(final int readTimeoutMillis) {
-            this.readTimeoutMillis = readTimeoutMillis;
-            return this;
-        }
-
-        public Builder setAllowCrossProtocolRedirects(final boolean allowCrossProtocolRedirects) {
-            this.allowCrossProtocolRedirects = allowCrossProtocolRedirects;
+        public Builder setCacheControl(@NonNull final CacheControl cacheControl) {
+            this.cacheControl = cacheControl;
             return this;
         }
 
@@ -258,12 +254,11 @@ public final class IcyHttpDataSource extends DefaultHttpDataSource {
 
         IcyHttpDataSource build() {
             final IcyHttpDataSource dataSource =
-                    new IcyHttpDataSource(userAgent,
+                    new IcyHttpDataSource(callFactory,
+                            userAgent,
                             contentTypePredicate,
                             listener,
-                            connectTimeoutMillis,
-                            readTimeoutMillis,
-                            allowCrossProtocolRedirects,
+                            cacheControl,
                             defaultRequestProperties);
             dataSource.icyHeadersListener = icyHeadersListener;
             dataSource.icyMetadataListener = icyMetadataListener;
@@ -346,7 +341,7 @@ public final class IcyHttpDataSource extends DefaultHttpDataSource {
 
     /**
      * Container for stream title and URL.
-     *
+     * <p>
      * The exact contents isn't specified and implementation specific. It's therefore up to the
      * user to figure what format a given stream returns.
      */

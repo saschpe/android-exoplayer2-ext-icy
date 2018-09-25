@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
+import okhttp3.OkHttpClient;
 import saschpe.exoplayer2.ext.icy.test.Constants;
 
 import static org.junit.Assert.assertNotNull;
@@ -49,11 +50,10 @@ public final class IcyHttpDataSourceFactoryTest {
     @Test
     public void createDataSourceViaFactoryFromFactoryBuilder() {
         // Arrange
-        IcyHttpDataSourceFactory factory = new IcyHttpDataSourceFactory.Builder(Constants.TEST_USER_AGENT)
+        OkHttpClient client = new OkHttpClient.Builder().build();
+        IcyHttpDataSourceFactory factory = new IcyHttpDataSourceFactory.Builder(client)
+                .setUserAgent(Constants.TEST_USER_AGENT)
                 .setTransferListener(TEST_TRANSFER_LISTENER)
-                .setConnectTimeoutMillis(Constants.TEST_CONNECT_TIMEOUT_MS)
-                .setReadTimeoutMillis(Constants.TEST_READ_TIMEOUT_MS)
-                .setAllowCrossProtocolRedirects(Constants.TEST_ALLOW_CROSS_PROTOCOL_REDIRECTS)
                 .setIcyHeadersListener(TEST_ICY_HEADERS_LISTENER)
                 .setIcyMetadataChangeListener(TEST_ICY_METADATA_LISTENER)
                 .build();
