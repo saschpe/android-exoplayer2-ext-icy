@@ -8,6 +8,7 @@ import com.google.android.exoplayer2.upstream.DefaultHttpDataSource;
 import com.google.android.exoplayer2.upstream.TransferListener;
 import com.google.android.exoplayer2.util.Predicate;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -191,6 +192,8 @@ public final class IcyHttpDataSource extends DefaultHttpDataSource {
                 case ICY_METADATA_STREAM_URL_KEY:
                     icyMetadata.streamUrl = value;
             }
+
+            icyMetadata.metadata.put(key, value);
         }
 
         return icyMetadata;
@@ -348,6 +351,7 @@ public final class IcyHttpDataSource extends DefaultHttpDataSource {
     public final class IcyMetadata {
         String streamTitle;
         String streamUrl;
+        HashMap<String, String> metadata = new HashMap<>();
 
         /**
          * @return The song title.
@@ -363,11 +367,21 @@ public final class IcyHttpDataSource extends DefaultHttpDataSource {
             return streamUrl;
         }
 
+        /**
+         * Provides a map of all stream metadata.
+         *
+         * @return Complete metadata
+         */
+        public HashMap<String, String> getMetadata() {
+            return metadata;
+        }
+
         @Override
         public String toString() {
             return "IcyMetadata{" +
                     "streamTitle='" + streamTitle + '\'' +
                     ", streamUrl='" + streamUrl + '\'' +
+                    ", metadata='" + metadata + '\'' +
                     '}';
         }
     }
