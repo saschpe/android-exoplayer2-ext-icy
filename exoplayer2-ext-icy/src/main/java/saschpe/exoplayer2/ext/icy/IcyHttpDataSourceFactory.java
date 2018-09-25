@@ -1,5 +1,7 @@
 package saschpe.exoplayer2.ext.icy;
 
+import android.support.annotation.NonNull;
+
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.HttpDataSource;
 import com.google.android.exoplayer2.upstream.TransferListener;
@@ -32,7 +34,7 @@ public final class IcyHttpDataSourceFactory extends HttpDataSource.BaseFactory {
          *
          * @param userAgent The user agent
          */
-        public Builder(final String userAgent) {
+        public Builder(@NonNull final String userAgent) {
             // Apply defaults
             factory = new IcyHttpDataSourceFactory();
             factory.userAgent = userAgent;
@@ -42,32 +44,32 @@ public final class IcyHttpDataSourceFactory extends HttpDataSource.BaseFactory {
             factory.allowCrossProtocolRedirects = false;
         }
 
-        public Builder setTransferListener(final TransferListener<? super DataSource> listener) {
+        public Builder setTransferListener(@NonNull final TransferListener<? super DataSource> listener) {
             factory.listener = listener;
             return this;
         }
 
-        public Builder setConnectTimeoutMillis(final int connectTimeoutMillis) {
+        public Builder setConnectTimeoutMillis(@NonNull final int connectTimeoutMillis) {
             factory.connectTimeoutMillis = connectTimeoutMillis;
             return this;
         }
 
-        public Builder setReadTimeoutMillis(final int readTimeoutMillis) {
+        public Builder setReadTimeoutMillis(@NonNull final int readTimeoutMillis) {
             factory.readTimeoutMillis = readTimeoutMillis;
             return this;
         }
 
-        public Builder setAllowCrossProtocolRedirects(final boolean allowCrossProtocolRedirects) {
+        public Builder setAllowCrossProtocolRedirects(@NonNull final boolean allowCrossProtocolRedirects) {
             factory.allowCrossProtocolRedirects = allowCrossProtocolRedirects;
             return this;
         }
 
-        public Builder setIcyHeadersListener(final IcyHttpDataSource.IcyHeadersListener icyHeadersListener) {
+        public Builder setIcyHeadersListener(@NonNull final IcyHttpDataSource.IcyHeadersListener icyHeadersListener) {
             factory.icyHeadersListener = icyHeadersListener;
             return this;
         }
 
-        public Builder setIcyMetadataChangeListener(final IcyHttpDataSource.IcyMetadataListener icyMetadataListener) {
+        public Builder setIcyMetadataChangeListener(@NonNull final IcyHttpDataSource.IcyMetadataListener icyMetadataListener) {
             factory.icyMetadataListener = icyMetadataListener;
             return this;
         }
@@ -78,7 +80,7 @@ public final class IcyHttpDataSourceFactory extends HttpDataSource.BaseFactory {
     }
 
     @Override
-    protected IcyHttpDataSource createDataSourceInternal(HttpDataSource.RequestProperties defaultRequestProperties) {
+    protected IcyHttpDataSource createDataSourceInternal(@NonNull HttpDataSource.RequestProperties defaultRequestProperties) {
         return new IcyHttpDataSource.Builder(userAgent)
                 .setTransferListener(listener)
                 .setConnectTimeoutMillis(connectTimeoutMillis)

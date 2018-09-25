@@ -1,5 +1,7 @@
 package saschpe.exoplayer2.ext.icy;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.google.android.exoplayer2.upstream.DataSource;
@@ -47,13 +49,13 @@ public final class IcyHttpDataSource extends DefaultHttpDataSource {
     }
 
     private IcyHttpDataSource(
-            final String userAgent,
-            final Predicate<String> contentTypePredicate,
-            final TransferListener<? super DefaultHttpDataSource> listener,
+            @NonNull final String userAgent,
+            @Nullable final Predicate<String> contentTypePredicate,
+            @Nullable final TransferListener<? super DefaultHttpDataSource> listener,
             final int connectTimeoutMillis,
             final int readTimeoutMillis,
             final boolean allowCrossProtocolRedirects,
-            final RequestProperties defaultRequestProperties) {
+            @Nullable final RequestProperties defaultRequestProperties) {
         super(userAgent, contentTypePredicate, listener, connectTimeoutMillis, readTimeoutMillis, allowCrossProtocolRedirects, defaultRequestProperties);
         defaultRequestProperties.set(REQUEST_HEADER_ICY_METAINT_KEY, REQUEST_HEADER_ICY_METAINT_VALUE);
         // See class Builder
@@ -210,16 +212,16 @@ public final class IcyHttpDataSource extends DefaultHttpDataSource {
         private IcyHeadersListener icyHeadersListener;
         private IcyMetadataListener icyMetadataListener;
 
-        public Builder(final String userAgent) {
+        public Builder(@NonNull final String userAgent) {
             this.userAgent = userAgent;
         }
 
-        public Builder setContentTypePredicate(final Predicate<String> contentTypePredicate) {
+        public Builder setContentTypePredicate(@NonNull final Predicate<String> contentTypePredicate) {
             this.contentTypePredicate = contentTypePredicate;
             return this;
         }
 
-        public Builder setTransferListener(final TransferListener<? super DataSource> listener) {
+        public Builder setTransferListener(@NonNull final TransferListener<? super DataSource> listener) {
             this.listener = listener;
             return this;
         }
@@ -239,17 +241,17 @@ public final class IcyHttpDataSource extends DefaultHttpDataSource {
             return this;
         }
 
-        public Builder setDefaultRequestProperties(final RequestProperties defaultRequestProperties) {
+        public Builder setDefaultRequestProperties(@NonNull final RequestProperties defaultRequestProperties) {
             this.defaultRequestProperties = defaultRequestProperties;
             return this;
         }
 
-        public Builder setIcyHeadersListener(final IcyHttpDataSource.IcyHeadersListener icyHeadersListener) {
+        public Builder setIcyHeadersListener(@NonNull final IcyHttpDataSource.IcyHeadersListener icyHeadersListener) {
             this.icyHeadersListener = icyHeadersListener;
             return this;
         }
 
-        public Builder setIcyMetadataListener(final IcyMetadataListener icyMetadataListener) {
+        public Builder setIcyMetadataListener(@NonNull final IcyMetadataListener icyMetadataListener) {
             this.icyMetadataListener = icyMetadataListener;
             return this;
         }
