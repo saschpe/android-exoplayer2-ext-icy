@@ -292,22 +292,37 @@ public final class IcyHttpDataSource extends DefaultHttpDataSource {
          */
         boolean isPublic;
 
+        /**
+         * @return The bit rate in kilobits per second (KB/s)
+         */
         public int getBitRate() {
             return bitRate;
         }
 
+        /**
+         * @return The musical genre of the stream
+         */
         public String getGenre() {
             return genre;
         }
 
+        /**
+         * @return The stream name
+         */
         public String getName() {
             return name;
         }
 
+        /**
+         * @return The URL of the music stream (can be a website or artwork)
+         */
         public String getUrl() {
             return url;
         }
 
+        /**
+         * @return Determines if this stream is public or listed in a catalog
+         */
         public boolean isPublic() {
             return isPublic;
         }
@@ -334,10 +349,16 @@ public final class IcyHttpDataSource extends DefaultHttpDataSource {
         String streamTitle;
         String streamUrl;
 
+        /**
+         * @return The song title.
+         */
         public String getStreamTitle() {
             return streamTitle;
         }
 
+        /**
+         * @return Url to album artwork or more information about the current song.
+         */
         public String getStreamUrl() {
             return streamUrl;
         }
