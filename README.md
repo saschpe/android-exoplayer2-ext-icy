@@ -24,7 +24,9 @@ To receive information about the current music stream (such as name and genre, s
 
 // Custom HTTP data source factory which requests Icy metadata and parses it if
 // the stream server supports it
-val icyHttpDataSourceFactory = IcyHttpDataSourceFactory.Builder(userAgent)
+val client = OkHttpClient.Builder().build()
+val icyHttpDataSourceFactory = IcyHttpDataSourceFactory.Builder(client)
+    .setUserAgent(userAgent)
     .setIcyHeadersListener { icyHeaders ->
         Log.d("XXX", "onIcyHeaders: %s".format(icyHeaders.toString()))
     }
