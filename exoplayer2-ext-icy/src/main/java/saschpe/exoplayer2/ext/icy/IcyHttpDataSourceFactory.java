@@ -2,17 +2,24 @@ package saschpe.exoplayer2.ext.icy;
 
 import android.support.annotation.NonNull;
 
+import com.google.android.exoplayer2.ext.okhttp.OkHttpDataSource;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.HttpDataSource;
 import com.google.android.exoplayer2.upstream.TransferListener;
+import com.google.android.exoplayer2.util.Predicate;
 
-/** A {@link HttpDataSource.Factory} that produces {@link IcyHttpDataSource} instances. */
-public final class IcyHttpDataSourceFactory extends HttpDataSource.BaseFactory {
+import okhttp3.CacheControl;
+import okhttp3.Call;
+
+/**
+ * A {@link HttpDataSource.Factory} that produces {@link IcyHttpDataSource} instances.
+ */
+public final class IcyHttpDataSourceFactory extends OkHttpDataSource.BaseFactory {
+    private Call.Factory callFactory;
     private String userAgent;
+    private Predicate<String> contentTypePredicate;
     private TransferListener<? super DataSource> listener;
-    private int connectTimeoutMillis;
-    private int readTimeoutMillis;
-    private boolean allowCrossProtocolRedirects;
+    private CacheControl cacheControl;
     private IcyHttpDataSource.IcyHeadersListener icyHeadersListener;
     private IcyHttpDataSource.IcyMetadataListener icyMetadataListener;
 
@@ -26,22 +33,21 @@ public final class IcyHttpDataSourceFactory extends HttpDataSource.BaseFactory {
     public final static class Builder {
         private final IcyHttpDataSourceFactory factory;
 
-        /**
-         * Sets {@link
-         * IcyHttpDataSource#DEFAULT_CONNECT_TIMEOUT_MILLIS} as the connection timeout, {@link
-         * IcyHttpDataSource#DEFAULT_READ_TIMEOUT_MILLIS} as the read timeout and disables
-         * cross-protocol redirects.
-         *
-         * @param userAgent The user agent
-         */
-        public Builder(@NonNull final String userAgent) {
+        public Builder(@NonNull Call.Factory callFactory) {
             // Apply defaults
             factory = new IcyHttpDataSourceFactory();
-            factory.userAgent = userAgent;
+            factory.callFactory = callFactory;
             factory.listener = null;
-            factory.connectTimeoutMillis = IcyHttpDataSource.DEFAULT_CONNECT_TIMEOUT_MILLIS;
-            factory.readTimeoutMillis = IcyHttpDataSource.DEFAULT_READ_TIMEOUT_MILLIS;
-            factory.allowCrossProtocolRedirects = false;
+        }
+
+        public Builder setUserAgent(@NonNull final String userAgent) {
+            factory.userAgent = userAgent;
+            return this;
+        }
+
+        public Builder setContentTypePredicate(@NonNull final Predicate<String> contentTypePredicate) {
+            factory.contentTypePredicate = contentTypePredicate;
+            return this;
         }
 
         public Builder setTransferListener(@NonNull final TransferListener<? super DataSource> listener) {
@@ -49,18 +55,8 @@ public final class IcyHttpDataSourceFactory extends HttpDataSource.BaseFactory {
             return this;
         }
 
-        public Builder setConnectTimeoutMillis(@NonNull final int connectTimeoutMillis) {
-            factory.connectTimeoutMillis = connectTimeoutMillis;
-            return this;
-        }
-
-        public Builder setReadTimeoutMillis(@NonNull final int readTimeoutMillis) {
-            factory.readTimeoutMillis = readTimeoutMillis;
-            return this;
-        }
-
-        public Builder setAllowCrossProtocolRedirects(@NonNull final boolean allowCrossProtocolRedirects) {
-            factory.allowCrossProtocolRedirects = allowCrossProtocolRedirects;
+        public Builder setCacheControl(@NonNull final CacheControl cacheControl) {
+            factory.cacheControl = cacheControl;
             return this;
         }
 
@@ -81,11 +77,11 @@ public final class IcyHttpDataSourceFactory extends HttpDataSource.BaseFactory {
 
     @Override
     protected IcyHttpDataSource createDataSourceInternal(@NonNull HttpDataSource.RequestProperties defaultRequestProperties) {
-        return new IcyHttpDataSource.Builder(userAgent)
+        return new IcyHttpDataSource.Builder(callFactory)
+                .setUserAgent(userAgent)
+                .setContentTypePredicate(contentTypePredicate)
                 .setTransferListener(listener)
-                .setConnectTimeoutMillis(connectTimeoutMillis)
-                .setReadTimeoutMillis(readTimeoutMillis)
-                .setAllowCrossProtocolRedirects(allowCrossProtocolRedirects)
+                .setCacheControl(cacheControl)
                 .setDefaultRequestProperties(defaultRequestProperties)
                 .setIcyHeadersListener(icyHeadersListener)
                 .setIcyMetadataListener(icyMetadataListener)

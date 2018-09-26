@@ -18,6 +18,7 @@ import kotlinx.coroutines.experimental.CoroutineStart
 import kotlinx.coroutines.experimental.Dispatchers
 import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.async
+import okhttp3.OkHttpClient
 import saschpe.exoplayer2.ext.icy.IcyHttpDataSourceFactory
 
 /**
@@ -67,7 +68,9 @@ class MainActivity : AppCompatActivity() {
 
             // Custom HTTP data source factory which requests Icy metadata and parses it if
             // the stream server supports it
-            val icyHttpDataSourceFactory = IcyHttpDataSourceFactory.Builder(userAgent)
+            val client = OkHttpClient.Builder().build()
+            val icyHttpDataSourceFactory = IcyHttpDataSourceFactory.Builder(client)
+                    .setUserAgent(userAgent)
                     .setIcyHeadersListener { icyHeaders ->
                         Log.d(TAG, "onIcyMetaData: icyHeaders=$icyHeaders")
                     }
