@@ -2,7 +2,7 @@
 [![Download](https://api.bintray.com/packages/saschpe/maven/android-exoplayer2-ext-icy/images/download.svg)](https://bintray.com/saschpe/maven/android-exoplayer2-ext-icy/_latestVersion)
 [![License](http://img.shields.io/:license-apache-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 [![Build Status](https://travis-ci.org/saschpe/android-exoplayer2-ext-icy.svg?branch=master)](https://travis-ci.org/saschpe/android-exoplayer2-ext-icy)
-<a href="http://www.methodscount.com/?lib=saschpe.android%3Aandroid-exoplayer2-ext-icy%3A2.0.0"><img src="https://img.shields.io/badge/Methods and size-core: 100 | deps: 19640 | 25 KB-e91e63.svg"/></a>
+<a href="http://www.methodscount.com/?lib=saschpe.android%3Aandroid-exoplayer2-ext-icy%3A2.1.0"><img src="https://img.shields.io/badge/Methods and size-core: 100 | deps: 19640 | 25 KB-e91e63.svg"/></a>
 
 The Shoutcast Metadata Protocol extension provides **IcyHttpDataSource** and 
 **IcyHttpDataSourceFactory** which can parse ICY metadata information such as stream name and
@@ -48,7 +48,7 @@ val mediaSource = ExtractorMediaSource.Factory(dataSourceFactory)
 
 # Download
 ```groovy
-implementation 'saschpe.android:exoplayer2-ext-icy:2.0.0'
+implementation 'saschpe.android:exoplayer2-ext-icy:2.1.0'
 ```
 
 Snapshots of the development version are available in [Sonatype's `snapshots` repository][snap].
