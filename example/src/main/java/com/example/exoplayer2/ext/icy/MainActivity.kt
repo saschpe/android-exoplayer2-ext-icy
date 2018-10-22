@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity() {
     private fun play() {
         GlobalScope.async(Dispatchers.Default, CoroutineStart.DEFAULT, null, {
             if (exoPlayer == null) {
-                exoPlayer = ExoPlayerFactory.newSimpleInstance(
+                exoPlayer = ExoPlayerFactory.newSimpleInstance(applicationContext,
                         DefaultRenderersFactory(applicationContext),
                         DefaultTrackSelector(),
                         DefaultLoadControl()

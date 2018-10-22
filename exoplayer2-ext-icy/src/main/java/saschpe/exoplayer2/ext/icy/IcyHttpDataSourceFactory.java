@@ -3,9 +3,7 @@ package saschpe.exoplayer2.ext.icy;
 import android.support.annotation.NonNull;
 
 import com.google.android.exoplayer2.ext.okhttp.OkHttpDataSource;
-import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.HttpDataSource;
-import com.google.android.exoplayer2.upstream.TransferListener;
 import com.google.android.exoplayer2.util.Predicate;
 
 import okhttp3.CacheControl;
@@ -18,7 +16,6 @@ public final class IcyHttpDataSourceFactory extends OkHttpDataSource.BaseFactory
     private Call.Factory callFactory;
     private String userAgent;
     private Predicate<String> contentTypePredicate;
-    private TransferListener<? super DataSource> listener;
     private CacheControl cacheControl;
     private IcyHttpDataSource.IcyHeadersListener icyHeadersListener;
     private IcyHttpDataSource.IcyMetadataListener icyMetadataListener;
@@ -37,7 +34,6 @@ public final class IcyHttpDataSourceFactory extends OkHttpDataSource.BaseFactory
             // Apply defaults
             factory = new IcyHttpDataSourceFactory();
             factory.callFactory = callFactory;
-            factory.listener = null;
         }
 
         public Builder setUserAgent(@NonNull final String userAgent) {
@@ -47,11 +43,6 @@ public final class IcyHttpDataSourceFactory extends OkHttpDataSource.BaseFactory
 
         public Builder setContentTypePredicate(@NonNull final Predicate<String> contentTypePredicate) {
             factory.contentTypePredicate = contentTypePredicate;
-            return this;
-        }
-
-        public Builder setTransferListener(@NonNull final TransferListener<? super DataSource> listener) {
-            factory.listener = listener;
             return this;
         }
 
@@ -80,7 +71,6 @@ public final class IcyHttpDataSourceFactory extends OkHttpDataSource.BaseFactory
         return new IcyHttpDataSource.Builder(callFactory)
                 .setUserAgent(userAgent)
                 .setContentTypePredicate(contentTypePredicate)
-                .setTransferListener(listener)
                 .setCacheControl(cacheControl)
                 .setDefaultRequestProperties(defaultRequestProperties)
                 .setIcyHeadersListener(icyHeadersListener)

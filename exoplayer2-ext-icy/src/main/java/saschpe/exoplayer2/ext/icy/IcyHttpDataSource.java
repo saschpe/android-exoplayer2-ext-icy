@@ -5,9 +5,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.google.android.exoplayer2.ext.okhttp.OkHttpDataSource;
-import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DataSpec;
-import com.google.android.exoplayer2.upstream.TransferListener;
 import com.google.android.exoplayer2.util.Predicate;
 
 import java.util.HashMap;
@@ -55,11 +53,11 @@ public final class IcyHttpDataSource extends OkHttpDataSource {
             @NonNull Call.Factory callFactory,
             @Nullable final String userAgent,
             @Nullable final Predicate<String> contentTypePredicate,
-            @Nullable final TransferListener<? super OkHttpDataSource> listener,
             @Nullable CacheControl cacheControl,
             @NonNull RequestProperties defaultRequestProperties) {
-        super(callFactory, userAgent, contentTypePredicate, listener, cacheControl, defaultRequestProperties);
+        super(callFactory, userAgent, contentTypePredicate, cacheControl, defaultRequestProperties);
         defaultRequestProperties.set(REQUEST_HEADER_ICY_METAINT_KEY, REQUEST_HEADER_ICY_METAINT_VALUE);
+
         // See class Builder
     }
 
@@ -207,7 +205,6 @@ public final class IcyHttpDataSource extends OkHttpDataSource {
         private Call.Factory callFactory;
         private String userAgent;
         private Predicate<String> contentTypePredicate;
-        private TransferListener<? super OkHttpDataSource> listener;
         private CacheControl cacheControl;
         private RequestProperties defaultRequestProperties = new RequestProperties();
         private IcyHeadersListener icyHeadersListener;
@@ -224,11 +221,6 @@ public final class IcyHttpDataSource extends OkHttpDataSource {
 
         public Builder setContentTypePredicate(@NonNull final Predicate<String> contentTypePredicate) {
             this.contentTypePredicate = contentTypePredicate;
-            return this;
-        }
-
-        public Builder setTransferListener(@NonNull final TransferListener<? super DataSource> listener) {
-            this.listener = listener;
             return this;
         }
 
@@ -257,7 +249,6 @@ public final class IcyHttpDataSource extends OkHttpDataSource {
                     new IcyHttpDataSource(callFactory,
                             userAgent,
                             contentTypePredicate,
-                            listener,
                             cacheControl,
                             defaultRequestProperties);
             dataSource.icyHeadersListener = icyHeadersListener;

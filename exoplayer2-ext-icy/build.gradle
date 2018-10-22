@@ -49,12 +49,17 @@ android {
             consumerProguardFiles 'proguard-rules.pro'
         }
     }
+
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
 }
 
 dependencies {
     // Runtime dependencies
-    api 'com.google.android.exoplayer:exoplayer-core:2.8.4'
-    api 'com.google.android.exoplayer:extension-okhttp:2.8.4'
+    api 'com.google.android.exoplayer:exoplayer-core:2.9.0'
+    api 'com.google.android.exoplayer:extension-okhttp:2.9.0'
 
     // Test dependencies
     testImplementation 'junit:junit:4.12'
