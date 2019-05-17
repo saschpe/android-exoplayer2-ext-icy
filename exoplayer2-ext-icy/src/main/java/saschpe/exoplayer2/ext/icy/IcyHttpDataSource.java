@@ -118,7 +118,7 @@ public final class IcyHttpDataSource extends OkHttpDataSource {
             } else {
                 remainingStreamDataUntilMetaDataBlock -= bytesRead;
             }
-            //bytesRead = 0;
+            bytesRead = 0;
         }
         return bytesRead;
     }
