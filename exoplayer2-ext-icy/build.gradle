@@ -58,8 +58,8 @@ android {
 
 dependencies {
     // Runtime dependencies
-    api 'com.google.android.exoplayer:exoplayer-core:2.9.0'
-    api 'com.google.android.exoplayer:extension-okhttp:2.9.0'
+    api 'com.google.android.exoplayer:exoplayer-core:2.10.0'
+    api 'com.google.android.exoplayer:extension-okhttp:2.10.0'
 
     // Test dependencies
     testImplementation 'junit:junit:4.12'
