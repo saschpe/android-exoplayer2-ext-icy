@@ -1,7 +1,7 @@
 package saschpe.exoplayer2.ext.icy;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import android.util.Log;
 
 import com.google.android.exoplayer2.ext.okhttp.OkHttpDataSource;
@@ -109,7 +109,7 @@ public final class IcyHttpDataSource extends OkHttpDataSource {
         int bytesRead;
 
         // Only read metadata if the server declared to send it...
-        if (metaDataIntervalInBytes < 0) {
+        if (metaDataIntervalInBytes <= 0) {
             bytesRead = super.read(buffer, offset, readLength);
         } else {
             bytesRead = super.read(buffer, offset, remainingStreamDataUntilMetaDataBlock < readLength ? remainingStreamDataUntilMetaDataBlock : readLength);
@@ -118,6 +118,7 @@ public final class IcyHttpDataSource extends OkHttpDataSource {
             } else {
                 remainingStreamDataUntilMetaDataBlock -= bytesRead;
             }
+            //bytesRead = 0;
         }
         return bytesRead;
     }
@@ -167,6 +168,7 @@ public final class IcyHttpDataSource extends OkHttpDataSource {
             } catch (Exception e) {
                 Log.e(TAG, "parseIcyMetadata: Cannot convert bytes to String");
             }
+            metaDataIntervalInBytes =- bytesRead;
         }
     }
 
