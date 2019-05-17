@@ -2,9 +2,17 @@ package com.example.exoplayer2.ext.icy
 
 import android.net.Uri
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import com.google.android.exoplayer2.*
+import androidx.appcompat.app.AppCompatActivity
+import com.google.android.exoplayer2.C
+import com.google.android.exoplayer2.DefaultLoadControl
+import com.google.android.exoplayer2.DefaultRenderersFactory
+import com.google.android.exoplayer2.ExoPlaybackException
+import com.google.android.exoplayer2.ExoPlayerFactory
+import com.google.android.exoplayer2.PlaybackParameters
+import com.google.android.exoplayer2.Player
+import com.google.android.exoplayer2.SimpleExoPlayer
+import com.google.android.exoplayer2.Timeline
 import com.google.android.exoplayer2.audio.AudioAttributes
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory
 import com.google.android.exoplayer2.source.ExtractorMediaSource
@@ -13,11 +21,12 @@ import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.experimental.CoroutineStart
-import kotlinx.coroutines.experimental.Dispatchers
-import kotlinx.coroutines.experimental.GlobalScope
-import kotlinx.coroutines.experimental.async
+import kotlinx.android.synthetic.main.activity_main.play_pause
+import kotlinx.android.synthetic.main.activity_main.stream
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import saschpe.exoplayer2.ext.icy.IcyHttpDataSourceFactory
 
@@ -50,51 +59,48 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun play() {
-        GlobalScope.async(Dispatchers.Default, CoroutineStart.DEFAULT, null, {
+        GlobalScope.launch(Dispatchers.Default, CoroutineStart.DEFAULT) {
             if (exoPlayer == null) {
-                exoPlayer = ExoPlayerFactory.newSimpleInstance(applicationContext,
-                        DefaultRenderersFactory(applicationContext),
-                        DefaultTrackSelector(),
-                        DefaultLoadControl()
+                exoPlayer = ExoPlayerFactory.newSimpleInstance(
+                    applicationContext,
+                    DefaultRenderersFactory(applicationContext),
+                    DefaultTrackSelector(),
+                    DefaultLoadControl()
                 )
                 exoPlayer?.addListener(exoPlayerEventListener)
             }
 
             val audioAttributes = AudioAttributes.Builder()
-                    .setContentType(C.CONTENT_TYPE_MUSIC)
-                    .setUsage(C.USAGE_MEDIA)
-                    .build()
+                .setContentType(C.CONTENT_TYPE_MUSIC)
+                .setUsage(C.USAGE_MEDIA)
+                .build()
             exoPlayer?.audioAttributes = audioAttributes
 
             // Custom HTTP data source factory which requests Icy metadata and parses it if
             // the stream server supports it
             val client = OkHttpClient.Builder().build()
             val icyHttpDataSourceFactory = IcyHttpDataSourceFactory.Builder(client)
-                    .setUserAgent(userAgent)
-                    .setIcyHeadersListener { icyHeaders ->
-                        Log.d(TAG, "onIcyMetaData: icyHeaders=$icyHeaders")
-                    }
-                    .setIcyMetadataChangeListener { icyMetadata ->
-                        Log.d(TAG, "onIcyMetaData: icyMetadata=$icyMetadata")
-                    }
-                    .build()
+                .setUserAgent(userAgent)
+                .setIcyHeadersListener { Log.d(TAG, "onIcyMetaData: icyHeaders=$it") }
+                .setIcyMetadataChangeListener { Log.d(TAG, "onIcyMetaData: icyMetadata=$it") }
+                .build()
 
             // Produces DataSource instances through which media data is loaded
             val dataSourceFactory = DefaultDataSourceFactory(
-                    applicationContext, null, icyHttpDataSourceFactory
+                applicationContext, null, icyHttpDataSourceFactory
             )
             // Produces Extractor instances for parsing the media data
             val extractorsFactory = DefaultExtractorsFactory()
 
             // The MediaSource represents the media to be played
             val mediaSource = ExtractorMediaSource.Factory(dataSourceFactory)
-                    .setExtractorsFactory(extractorsFactory)
-                    .createMediaSource(Uri.parse(stream.text.toString()))
+                .setExtractorsFactory(extractorsFactory)
+                .createMediaSource(Uri.parse(stream.text.toString()))
 
             // Prepares media to play (happens on background thread) and triggers
             // {@code onPlayerStateChanged} callback when the stream is ready to play
             exoPlayer?.prepare(mediaSource)
-        })
+        }
     }
 
     private fun stop() {
@@ -114,17 +120,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private inner class ExoPlayerEventListener : Player.EventListener {
-        override fun onTimelineChanged(timeline: Timeline, manifest: Any?, reason: Int) {
-        }
-
-        override fun onTracksChanged(trackGroups: TrackGroupArray, trackSelections: TrackSelectionArray) {
-        }
-
-        override fun onLoadingChanged(isLoading: Boolean) {
-        }
+        override fun onTimelineChanged(timeline: Timeline, manifest: Any?, reason: Int) = Unit
+        override fun onTracksChanged(groups: TrackGroupArray, selections: TrackSelectionArray) = Unit
+        override fun onLoadingChanged(isLoading: Boolean) = Unit
 
         override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
-            Log.i(TAG, "onPlayerStateChanged: playWhenReady=$playWhenReady, playbackState=$playbackState")
+            Log.i(
+                TAG,
+                "onPlayerStateChanged: playWhenReady=$playWhenReady, playbackState=$playbackState"
+            )
             when (playbackState) {
                 Player.STATE_IDLE, Player.STATE_BUFFERING, Player.STATE_READY ->
                     isPlaying = true
@@ -137,20 +141,11 @@ class MainActivity : AppCompatActivity() {
             Log.e(TAG, "onPlayerStateChanged: error=$error")
         }
 
-        override fun onPositionDiscontinuity(reason: Int) {
-        }
-
-        override fun onPlaybackParametersChanged(playbackParameters: PlaybackParameters) {
-        }
-
-        override fun onSeekProcessed() {
-        }
-
-        override fun onRepeatModeChanged(repeatMode: Int) {
-        }
-
-        override fun onShuffleModeEnabledChanged(shuffleModeEnabled: Boolean) {
-        }
+        override fun onPositionDiscontinuity(reason: Int) = Unit
+        override fun onPlaybackParametersChanged(playbackParameters: PlaybackParameters) = Unit
+        override fun onSeekProcessed() = Unit
+        override fun onRepeatModeChanged(repeatMode: Int) = Unit
+        override fun onShuffleModeEnabledChanged(shuffleModeEnabled: Boolean) = Unit
     }
 
     companion object {
