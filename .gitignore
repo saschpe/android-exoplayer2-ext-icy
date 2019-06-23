@@ -2,6 +2,7 @@
 .gradle/
 build/
 local.properties
+keys/**
 
 # IntelliJ / Android Studio
 *.iml
