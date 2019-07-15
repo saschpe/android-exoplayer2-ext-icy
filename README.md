@@ -1,3 +1,33 @@
+# DEPRECATED / MERGED UPSTREAM
+This 3rd-party extension moved into ExoPlayer 2.10 directly (see the [2.10 release announcement](https://medium.com/google-exoplayer/exoplayer-2-10-whats-new-15d344eaa8b9)). It remains functional but you might want to port to the official version as I won't continue to maintain this library any further.
+
+# Usage
+With ExoPlayer 2.10, fetching shoutcast metadata is straightforward:
+
+```kotlin
+// ... exoPlayer instance already created
+
+exoPlayer?.addMetadataOutput {
+    for (i in 0 until it.length()) {
+        val entry = it.get(i)
+        if (entry is IcyHeaders) {
+            Log.debug("onMetadata: IcyHeaders $entry")
+        }
+        if (entry is IcyInfo) {
+            Log.debug("onMetadata: IcyInfo $entry")
+        }
+    }
+}
+
+// The MediaSource represents the media to be played
+val mediaSource = ProgressiveMediaSource
+    .Factory(DefaultDataSourceFactory(applicationContext, userAgent))
+    .createMediaSource(sourceUri)
+
+// exoPlayer?.prepare(mediaSource) ...
+```
+
+
 # ExoPlayer2 Shoutcast Metadata Protocol (ICY) extension
 [![Download](https://api.bintray.com/packages/saschpe/maven/android-exoplayer2-ext-icy/images/download.svg)](https://bintray.com/saschpe/maven/android-exoplayer2-ext-icy/_latestVersion)
 [![License](http://img.shields.io/:license-apache-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
@@ -14,7 +44,7 @@ You can find the protocol description here:
 - http://www.smackfu.com/stuff/programming/shoutcast.html
 
 
-# Usage
+## Usage
 To receive information about the current music stream (such as name and genre, see **IcyHeaders**
  class) as well as current song information (see **IcyMetadata** class), pass an instance of
  **IcyHttpDataSourceFactory** instead of an **DefaultHttpDataSourceFactory** like this (in Kotlin):
@@ -46,7 +76,7 @@ val mediaSource = ExtractorMediaSource.Factory(dataSourceFactory)
 // exoPlayer?.prepare(mediaSource) ...
 ```
 
-# Download
+## Download
 ```groovy
 implementation 'saschpe.android:exoplayer2-ext-icy:2.1.0'
 ```
@@ -54,7 +84,7 @@ implementation 'saschpe.android:exoplayer2-ext-icy:2.1.0'
 Snapshots of the development version are available in [Sonatype's `snapshots` repository][snap].
 
 
-# License
+## License
 
     Copyright 2018 Sascha Peilicke
 
